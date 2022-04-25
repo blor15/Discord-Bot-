@@ -1,25 +1,25 @@
-import Canvas from 'canvas';
-import Discord from 'discord.js';
+const Canvas = require('canvas');
+const Discord = require('discord.js');
 
-const background = 'https://i.imgur.com/cYr9M8f.jpeg'
+const background = 'https://i.imgur.com/cYr9M8f.jpeg';
 
 const dim = {
     height: 675,
     width: 1200,
     margin: 50
-}
+};
 
 const av = {
     size: 256,
     x: 480,
     y: 170
-}
-export const generateImage = async (member) => {
+};
+const generateImage = async (member) => {
     let username = member.user.username
     let discrim = member.user.discriminator
     let avatarURl = member.user.displayAvatarURL({
         format: 'png',
-        dynamic: false,
+        dynamic: true,
         size: av.size
     })
 
@@ -60,9 +60,10 @@ export const generateImage = async (member) => {
 
     //draw in the server
     ctx.font = '40px Roboto'
-    ctx.fillText("to the server", dim.width / 2, dim.height - dim.margin - 50)
+    ctx.fillText("to Where are the Gamers?", dim.width / 2, dim.height - dim.margin - 50)
 
     const attachment = new Discord.MessageAttachment(canvas.toBuffer(), "Welcome.png")
     return attachment
 };
 
+module.exports = generateImage;
