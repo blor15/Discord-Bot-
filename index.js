@@ -1,9 +1,6 @@
 const Discord = require('discord.js');
 require('dotenv').config();
 
-// const generateImage = require('./generateimage');
-
-
 const client = new Discord.Client({
     intents: [
         'GUILDS',
@@ -15,7 +12,7 @@ const client = new Discord.Client({
 let bot = {
     client,
     prefix: 'n.',
-    owners: ['295308558021427201']
+    owners: [process.env.ownerID]
 };
 
 client.commands = new Discord.Collection();
@@ -35,30 +32,17 @@ client.loadButtons(bot, false);
 
 module.exports = bot;
 
+//Welcome function for new member in the server
+const generateImage = require('./generateimage');
 
-// client.on('ready', () => {
-//     console.log(`Logged in as ${client.user.tag}!`)
-// });
+client.on("guildMemberAdd", async (member) => {
+    const image = await generateImage(member)
+    member.guild.channels.cache.get(process.env.welcomeChannelID).send({
+        content: (`<@${member.id}> Welcome to the server!`),
+        files: [image]
+    })
 
-// client.on('messageCreate', (message) => {
-//     if (message.content === 'Hi') {
-//         message.reply('Hello World')
-//     }
-//     if (message.content === 'Ching') {
-//         message.reply('Shut Up')
-//     }
-// })
-
-// const weclomeChannelId = "862519578671185941";
-
-// client.on("guildMemberAdd", async (member) => {
-//     const image = await generateImage(member)
-//     member.guild.channels.cache.get(weclomeChannelId).send({
-//         content: (`<@${member.id}> Welcome to the server!`),
-//         files: [image]
-//     })
-
-// })
+})
 
 client.login(process.env.TOKEN);
 
