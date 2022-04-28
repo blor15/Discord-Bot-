@@ -6,26 +6,24 @@ const run = async (client, interaction) => {
     if (!member) return interaction.reply('Invalid member')
 
     try {
-        await interaction.guild.bans.create(member, {
-            reason
-        })
-        return interaction.reply(`${member.user.tag} has been banned with a reason of ${reason}`)
+        await interaction.guild.members.kick(member, reason)
+        return interaction.reply(`${member.user.tag} has been timed out for with a reason of ${reason}`)
     }
     catch (err) {
         if (err) {
             console.error(err)
-            return interaction.reply(`Failed to ban ${member.user.tag}`)
+            return interaction.reply(`Failed to kick ${member.user.tag}`)
         }
     }
 }
 
 module.exports = {
-    name: 'ban',
-    description: 'Ban a member',
-    perm: 'BAN_MEMBERS',
+    name: 'kick',
+    description: 'Kick a member',
+    perm: 'KICK_MEMBERS',
     options: [
         {
-            name: 'user', description: 'The user to ban',
+            name: 'user', description: 'The user to timeout',
             type: 'USER', required: true
         },
         {

@@ -42,6 +42,7 @@ module.exports = {
             description: 'Reason for punishment',
             type: 'STRING',
             required: false
-        }
-    ]
+        },
+    ],
+    run,
 }
